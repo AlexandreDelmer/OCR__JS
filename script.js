@@ -1,4 +1,7 @@
-function afficherResultat(score, nbrMotsMax)
+function afficherResultat(score, nbrMotsMax){
+    let message = "Votre score est de " + score + " sur " + nbrMotsMax
+    return message
+}
 
 /*
 const listeMots = ["Cachalot", "Pétunia", "Serviette"]
