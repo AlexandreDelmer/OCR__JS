@@ -1,4 +1,4 @@
-
+function afficherResultat(score, nbrMotsMax)
 
 /*
 const listeMots = ["Cachalot", "Pétunia", "Serviette"]
