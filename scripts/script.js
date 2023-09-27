@@ -20,7 +20,8 @@ function afficherResultat(score, nbMotsProposes) {
  * Cette fonction demande à l'utilisateur de choisir entre "mots" et "phrases" et retourne le choix de l'utilisateur
  * @return {string} : le choix de l'utilisateur, ce choix est nécessairement "mots" ou "phrases
  */
-function choisirPhrasesOuMots() {
+
+/**function choisirPhrasesOuMots() {
     // Tant que l'utilisateur n'a pas saisi "mots" ou "phrases", on lui redemande de saisir un choix
     let choix = prompt("Avec quelle liste désirez-vous jouer : 'mots' ou 'phrases' ?")
     while (choix !== "mots" && choix !== "phrases") {
@@ -36,7 +37,8 @@ function choisirPhrasesOuMots() {
  * @param {array[string]} listePropositions 
  * @return {number} : le score de l'utilisateur
  */
-function lancerBoucleDeJeu(listePropositions) {
+
+/*function lancerBoucleDeJeu(listePropositions) {
     let score = 0
     for (let i = 0; i < listePropositions.length; i++) {
         // On demande à l'utilisateur de saisir le mot correspondant à l'indice i
@@ -55,12 +57,23 @@ function lancerBoucleDeJeu(listePropositions) {
  */
 function lancerJeu() {
     // Initialisations
-    let choix = choisirPhrasesOuMots()
+    //let choix = choisirPhrasesOuMots()
     let score = 0
     let nbMotsProposes = 0
 
+    let btnValiderMot = document.getElementById("btnValiderMot")
+    let inputEcriture = document.getElementById("inputEcriture") 
+    let compteur = 0
+
+    btnValiderMot.addEventListener("click", () =>{
+        compteur++
+        console.log(listeMots[compteur])
+    })
+
+
+
     // On détermine la liste des mots ou des phrases à proposer à l'utilisateur
-    if (choix === "mots") {
+    /* if (choix === "mots") {
         score = lancerBoucleDeJeu(listeMots)
         nbMotsProposes = listeMots.length
     } else {
@@ -69,4 +82,5 @@ function lancerJeu() {
     }
 
     afficherResultat(score, nbMotsProposes)
+    */
 }
