@@ -55,6 +55,12 @@ function afficherResultat(score, nbMotsProposes) {
  * Cette fonction lance le jeu. 
  * Elle demande à l'utilisateur de choisir entre "mots" et "phrases" et lance la boucle de jeu correspondante
  */
+
+function afficherProposition(proposition){
+    let zoneProposition = document.querySelector(`.zoneProposition`)
+    zoneProposition.innerText = proposition
+}
+
 function lancerJeu() {
     // Initialisations
     //let choix = choisirPhrasesOuMots()
@@ -63,14 +69,25 @@ function lancerJeu() {
 
     let btnValiderMot = document.getElementById("btnValiderMot")
     let inputEcriture = document.getElementById("inputEcriture") 
-    let compteur = 0
+    let i = 0
 
+    afficherProposition(listeMots[i])
     btnValiderMot.addEventListener("click", () =>{
-        compteur++
-        console.log(listeMots[compteur])
+        i++
+        listeMots[i]
+        inputEcriture.value = ""
+
+        if(listeMots[i] === undefined){
+            console.log("Le jeu est terminé")
+            btnValiderMot.disabled = true
+
+        } else {
+            afficherProposition(listeMots[i])
+        }
+
     })
 
-
+    
 
     // On détermine la liste des mots ou des phrases à proposer à l'utilisateur
     /* if (choix === "mots") {
@@ -80,7 +97,7 @@ function lancerJeu() {
         score = lancerBoucleDeJeu(listePhrases)
         nbMotsProposes = listePhrases.length
     }
+    */
 
     afficherResultat(score, nbMotsProposes)
-    */
 }
