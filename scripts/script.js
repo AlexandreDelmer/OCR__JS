@@ -72,10 +72,14 @@ function lancerJeu() {
     let i = 0
 
     afficherProposition(listeMots[i])
+
     btnValiderMot.addEventListener("click", () =>{
         i++
         listeMots[i]
         inputEcriture.value = ""
+        nbMotsProposes = [i]
+
+        
 
         if(listeMots[i] === undefined){
             console.log("Le jeu est terminé")
@@ -85,10 +89,9 @@ function lancerJeu() {
             afficherProposition(listeMots[i])
         }
 
+        afficherResultat(score, nbMotsProposes)
+
     })
-
-    
-
     // On détermine la liste des mots ou des phrases à proposer à l'utilisateur
     /* if (choix === "mots") {
         score = lancerBoucleDeJeu(listeMots)
@@ -98,6 +101,4 @@ function lancerJeu() {
         nbMotsProposes = listePhrases.length
     }
     */
-
-    afficherResultat(score, nbMotsProposes)
 }
