@@ -74,12 +74,15 @@ function lancerJeu() {
     afficherProposition(listeMots[i])
 
     btnValiderMot.addEventListener("click", () =>{
+
+         if(inputEcriture.value === listeMots[i]){
+            score++
+        }
+
         i++
         listeMots[i]
         inputEcriture.value = ""
         nbMotsProposes = [i]
-
-        
 
         if(listeMots[i] === undefined){
             console.log("Le jeu est terminé")
