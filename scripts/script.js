@@ -1,3 +1,4 @@
+
 /*********************************************************************************
  * 
  * Ce fichier contient toutes les fonctions nécessaires au fonctionnement du jeu. 
@@ -60,6 +61,25 @@ function afficherProposition(proposition){
     let zoneProposition = document.querySelector(`.zoneProposition`)
     zoneProposition.innerText = proposition
 }
+
+//Function pour séléctionner mots ou phrases
+let optionSource = document.querySelectorAll("input[name = optionSource]")
+
+optionSource.addEventListener("change", () => {
+    let zoneProposition = document.querySelector(`.zoneProposition`)
+
+    for(let i = 0; i < optionSource.length; i++){
+        optionSource[i].checked
+        
+        if(optionSource[i].checked.value === "mots"){
+            zoneProposition.innerHTML = listeMots[i]
+        } else {
+            zoneProposition.innerHTML = listePhrases[i]
+        }
+        }
+    }
+
+)
 
 function lancerJeu() {
     // Initialisations
