@@ -1,4 +1,3 @@
-
 /*********************************************************************************
  * 
  * Ce fichier contient toutes les fonctions nécessaires au fonctionnement du jeu. 
@@ -57,35 +56,18 @@ function afficherResultat(score, nbMotsProposes) {
  * Elle demande à l'utilisateur de choisir entre "mots" et "phrases" et lance la boucle de jeu correspondante
  */
 
+
 function afficherProposition(proposition){
     let zoneProposition = document.querySelector(`.zoneProposition`)
     zoneProposition.innerText = proposition
-}
-
-//Function pour séléctionner mots ou phrases
-let optionSource = document.querySelectorAll("input[name = optionSource]")
-
-optionSource.addEventListener("change", () => {
-    let zoneProposition = document.querySelector(`.zoneProposition`)
-
-    for(let i = 0; i < optionSource.length; i++){
-        optionSource[i].checked
-        
-        if(optionSource[i].checked.value === "mots"){
-            zoneProposition.innerHTML = listeMots[i]
-        } else {
-            zoneProposition.innerHTML = listePhrases[i]
-        }
-        }
-    }
-
-)
+}         
 
 function lancerJeu() {
     // Initialisations
     //let choix = choisirPhrasesOuMots()
     let score = 0
     let nbMotsProposes = 0
+    let listePropositions = listeMots
 
     let btnValiderMot = document.getElementById("btnValiderMot")
     let inputEcriture = document.getElementById("inputEcriture") 
@@ -112,9 +94,24 @@ function lancerJeu() {
             afficherProposition(listeMots[i])
         }
 
-        afficherResultat(score, nbMotsProposes)
-
     })
+
+    let btnChoice = document.querySelectorAll(".optionSource input")
+
+    for (let i = 0; i < btnChoice.length; i++){
+        btnChoice[i].addEventListener("change", (event) => {
+            if(event.target.value === "1"){
+                listePropositions = listeMots
+            } else {
+                listePropositions = listePhrases
+            }
+
+            afficherProposition(listePropositions[i])
+        })
+    }
+
+    afficherResultat(score, nbMotsProposes)
+
     // On détermine la liste des mots ou des phrases à proposer à l'utilisateur
     /* if (choix === "mots") {
         score = lancerBoucleDeJeu(listeMots)
