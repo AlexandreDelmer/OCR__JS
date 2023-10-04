@@ -10,115 +10,83 @@
  * @param {number} nbMotsProposes : le nombre de mots proposés à l'utilisateur
  */
 function afficherResultat(score, nbMotsProposes) {
-    let spanScore = document.querySelector(".zoneScore span") 
-
-    let dislayScore = `${score} / ${nbMotsProposes}`
-    spanScore.innerHTML = dislayScore
+    // Récupération de la zone dans laquelle on va écrire le score
+    let spanScore = document.querySelector(".zoneScore span")
+    // Ecriture du texte
+    let affichageScore = `${score} / ${nbMotsProposes}` 
+    // On place le texte à l'intérieur du span. 
+    spanScore.innerText = affichageScore
 }
 
 /**
- * Cette fonction demande à l'utilisateur de choisir entre "mots" et "phrases" et retourne le choix de l'utilisateur
- * @return {string} : le choix de l'utilisateur, ce choix est nécessairement "mots" ou "phrases
+ * Cette fonction affiche une proposition, que le joueur devra recopier, 
+ * dans la zone "zoneProposition"
+ * @param {string} proposition : la proposition à afficher
  */
-
-/**function choisirPhrasesOuMots() {
-    // Tant que l'utilisateur n'a pas saisi "mots" ou "phrases", on lui redemande de saisir un choix
-    let choix = prompt("Avec quelle liste désirez-vous jouer : 'mots' ou 'phrases' ?")
-    while (choix !== "mots" && choix !== "phrases") {
-        choix = prompt("Avec quelle liste désirez-vous jouer : 'mots' ou 'phrases' ?")
-    }
-    return choix
+function afficherProposition(proposition) {
+    let zoneProposition = document.querySelector(".zoneProposition")
+    zoneProposition.innerText = proposition
 }
 
 /**
- * Cette fonction lance la boucle de jeu, c'est à dire qu'elle demande à l'utilisateur de saisir tous les mots
- * contenus dans le tableau listePropositions. A chaque mot saisi, on incrémente le score de l'utilisateur
- * 
- * @param {array[string]} listePropositions 
- * @return {number} : le score de l'utilisateur
+ * Cette fonction construit et affiche l'email. 
+ * @param {string} nom : le nom du joueur
+ * @param {string} email : l'email de la personne avec qui il veut partager son score
+ * @param {string} score : le score. 
  */
-
-/*function lancerBoucleDeJeu(listePropositions) {
-    let score = 0
-    for (let i = 0; i < listePropositions.length; i++) {
-        // On demande à l'utilisateur de saisir le mot correspondant à l'indice i
-        let motUtilisateur = prompt("Entrez le mot : " + listePropositions[i])
-        if (motUtilisateur === listePropositions[i]) {
-            // Si le mot saisi par l'utilisateur est correct, on incrémente le score
-            score++
-        }
-    }
-    return score
+function afficherEmail(nom, email, score) {
+    let mailto = `mailto:${email}?subject=Partage du score Azertype&body=Salut, je suis ${nom} et je viens de réaliser le score ${score} sur le site d'Azertype !`
+    location.href = mailto
 }
 
 /**
  * Cette fonction lance le jeu. 
  * Elle demande à l'utilisateur de choisir entre "mots" et "phrases" et lance la boucle de jeu correspondante
  */
-
-
-function afficherProposition(proposition){
-    let zoneProposition = document.querySelector(`.zoneProposition`)
-    zoneProposition.innerText = proposition
-}         
-
 function lancerJeu() {
     // Initialisations
-    //let choix = choisirPhrasesOuMots()
+    initAddEventListenerPopup()
     let score = 0
-    let nbMotsProposes = 0
-    let listePropositions = listeMots
+    let i = 0
+    let listeProposition = listeMots
 
     let btnValiderMot = document.getElementById("btnValiderMot")
-    let inputEcriture = document.getElementById("inputEcriture") 
-    let i = 0
+    let inputEcriture = document.getElementById("inputEcriture")
 
-    afficherProposition(listeMots[i])
+    afficherProposition(listeProposition[i])
 
-    btnValiderMot.addEventListener("click", () =>{
-
-         if(inputEcriture.value === listeMots[i]){
+    // Gestion de l'événement click sur le bouton "valider"
+    btnValiderMot.addEventListener("click", () => {
+        if (inputEcriture.value === listeProposition[i]) {
             score++
         }
-
         i++
-        listeMots[i]
-        inputEcriture.value = ""
-        nbMotsProposes = [i]
-
-        if(listeMots[i] === undefined){
-            console.log("Le jeu est terminé")
+        afficherResultat(score, i)
+        inputEcriture.value = ''
+        if (listeProposition[i] === undefined) {
+            afficherProposition("Le jeu est fini")
             btnValiderMot.disabled = true
-
         } else {
-            afficherProposition(listeMots[i])
+            afficherProposition(listeProposition[i])
         }
-
     })
 
-    let btnChoice = document.querySelectorAll(".optionSource input")
-
-    for (let i = 0; i < btnChoice.length; i++){
-        btnChoice[i].addEventListener("change", (event) => {
-            if(event.target.value === "1"){
-                listePropositions = listeMots
+    // Gestion de l'événement change sur les boutons radios. 
+    let listeBtnRadio = document.querySelectorAll(".optionSource input")
+    for (let index = 0; index < listeBtnRadio.length; index++) {
+        listeBtnRadio[index].addEventListener("change", (event) => {
+            // Si c'est le premier élément qui a été modifié, alors nous voulons
+            // jouer avec la listeMots. 
+            if (event.target.value === "1") {
+                listeProposition = listeMots
             } else {
-                listePropositions = listePhrases
+                // Sinon nous voulons jouer avec la liste des phrases
+                listeProposition = listePhrases
             }
-
-            afficherProposition(listePropositions[i])
+            // Et on modifie l'affichage en direct. 
+            afficherProposition(listeProposition[i])
         })
     }
 
-    afficherResultat(score, nbMotsProposes)
-
-    // On détermine la liste des mots ou des phrases à proposer à l'utilisateur
-    /* if (choix === "mots") {
-        score = lancerBoucleDeJeu(listeMots)
-        nbMotsProposes = listeMots.length
-    } else {
-        score = lancerBoucleDeJeu(listePhrases)
-        nbMotsProposes = listePhrases.length
-    }
-    */
+    afficherResultat(score, i)
 }
