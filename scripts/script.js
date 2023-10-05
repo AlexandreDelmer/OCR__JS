@@ -89,4 +89,23 @@ function lancerJeu() {
     }
 
     afficherResultat(score, i)
+
+    let form = document.querySelector("form")
+    form.addEventListener("submit", (event) => {
+        event.preventDefault()
+
+        let baliseNom = document.getElementById("nom")
+        let nom = baliseNom.value
+
+        let baliseEmail = document.getElementById("email")
+        let email = baliseEmail.value
+
+        baliseEmail.addEventListener("change", (event){
+            
+        })
+
+        let scoreEmail = `${score} / ${i}` 
+
+        afficherEmail(nom, email, scoreEmail)
+    })
 }

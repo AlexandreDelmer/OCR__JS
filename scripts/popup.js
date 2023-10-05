@@ -49,13 +49,5 @@ function initAddEventListenerPopup() {
             cacherPopup()
         }
     })
-
-    let btnEnvoyerMail = document.getElementById("btnEnvoyerMail")
-    btnEnvoyerMail.addEventListener("click", (event) => {
-        event.preventDefault()
-
-        let nom = document.getElementById("nom")
-        let email = document.getElementById("email")
-    })
 }
 
