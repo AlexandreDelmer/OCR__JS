@@ -57,6 +57,31 @@ function validerEmail (email) {
     }
 }
 
+function gererFormulaire(score, i){
+    let form = document.querySelector("form")
+    form.addEventListener("submit", (event) => {
+        event.preventDefault()
+
+        let baliseNom = document.getElementById("nom")
+        let nom = baliseNom.value
+
+        let baliseEmail = document.getElementById("email")
+        let email = baliseEmail.value
+
+        let scoreEmail = `${score} / ${i}` 
+
+        validerNom(nom)
+        validerEmail(email)
+
+        if(validerNom(nom) && validerEmail(email)){
+            afficherEmail(nom, email, scoreEmail)
+        } else {
+            console.log("Ces informations sont incorrectes")
+        }
+
+    })
+}
+
 /**
  * Cette fonction lance le jeu. 
  * Elle demande à l'utilisateur de choisir entre "mots" et "phrases" et lance la boucle de jeu correspondante
@@ -108,27 +133,7 @@ function lancerJeu() {
 
     afficherResultat(score, i)
 
-    let form = document.querySelector("form")
-    form.addEventListener("submit", (event) => {
-        event.preventDefault()
-
-        let baliseNom = document.getElementById("nom")
-        let nom = baliseNom.value
-
-        let baliseEmail = document.getElementById("email")
-        let email = baliseEmail.value
-
-        let scoreEmail = `${score} / ${i}` 
-
-        validerNom(nom)
-        validerEmail(email)
-
-        if(validerNom(nom) && validerEmail(email)){
-            afficherEmail(nom, email, scoreEmail)
-        } else {
-            console.log("Ces informations sont incorrectes")
-        }
-
-    })
+    gererFormulaire(score, i)
 
 }
+
