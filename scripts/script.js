@@ -39,47 +39,74 @@ function afficherEmail(nom, email, score) {
     location.href = mailto
 }
 
+/**
+ * Cette fonction prend un nom en paramètre et valide qu'il est au bon format
+ * ici : deux caractères au minimum
+ * @param {string} nom 
+ * @throws {Error}
+ */
 function validerNom(nom) {
-    const nomRegex = /^[a-zA-Z]{2,}$/
-    if(nomRegex.test(nom)){
-        return true
-    } else {
-        return false
+    if (nom.length < 2) {
+        throw new Error("Le nom est trop court. ")
     }
+    
 }
 
-function validerEmail (email) {
-    const emailRegex = /^[A-Za-z0-9.-_]+@[A-Za-z]+\.[A-Za-z]{2,}$/
-    if(emailRegex.test(email)){
-        return true
-    } else {
-        return false
+/**
+ * Cette fonction prend un email en paramètre et valide qu'il est au bon format. 
+ * @param {string} email 
+ * @throws {Error}
+ */
+function validerEmail(email) {
+    let emailRegExp = new RegExp("[a-z0-9._-]+@[a-z0-9._-]+\\.[a-z0-9._-]+")
+    if (!emailRegExp.test(email)) {
+        throw new Error("L'email n'est pas valide.")
     }
+    
 }
 
-function gererFormulaire(score, i){
-    let form = document.querySelector("form")
-    form.addEventListener("submit", (event) => {
-        event.preventDefault()
+/**
+ * Cette fonction affiche le message d'erreur passé en paramètre. 
+ * Si le span existe déjà, alors il est réutilisé pour ne pas multiplier
+ * les messages d'erreurs. 
+ * @param {string} message 
+ */
+function afficherMessageErreur(message) {
+    
+    let spanErreurMessage = document.getElementById("erreurMessage")
 
+    if (!spanErreurMessage) {
+        let popup = document.querySelector(".popup")
+        spanErreurMessage = document.createElement("span")
+        spanErreurMessage.id = "erreurMessage"
+        
+        popup.append(spanErreurMessage)
+    }
+    
+    spanErreurMessage.innerText = message
+}
+
+/**
+ * Cette fonction permet de récupérer les informations dans le formulaire
+ * de la popup de partage et d'appeler l'affichage de l'email avec les bons paramètres.
+ * @param {string} scoreEmail 
+ */
+function gererFormulaire(scoreEmail) {
+    try {
         let baliseNom = document.getElementById("nom")
         let nom = baliseNom.value
-
+        validerNom(nom)
+    
         let baliseEmail = document.getElementById("email")
         let email = baliseEmail.value
-
-        let scoreEmail = `${score} / ${i}` 
-
-        validerNom(nom)
         validerEmail(email)
+        afficherMessageErreur("")
+        afficherEmail(nom, email, scoreEmail)
 
-        if(validerNom(nom) && validerEmail(email)){
-            afficherEmail(nom, email, scoreEmail)
-        } else {
-            console.log("Ces informations sont incorrectes")
-        }
-
-    })
+    } catch(erreur) {
+        afficherMessageErreur(erreur.message)
+    }
+    
 }
 
 /**
@@ -131,9 +158,13 @@ function lancerJeu() {
         })
     }
 
+    // Gestion de l'événement submit sur le formulaire de partage. 
+    let form = document.querySelector("form")
+    form.addEventListener("submit", (event) => {
+        event.preventDefault()
+        let scoreEmail = `${score} / ${i}`
+        gererFormulaire(scoreEmail)
+    })
+
     afficherResultat(score, i)
-
-    gererFormulaire(score, i)
-
 }
-
